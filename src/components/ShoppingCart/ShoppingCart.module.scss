@@ -1,0 +1,12 @@
+.cart {
+    width: 22rem;
+    height: 6rem;
+    border-radius: 32px;
+    padding: 2rem;
+    background-color: var(--color-primary);
+    display: flex;
+    box-shadow: var(--shadow-main);
+    justify-content: space-between;
+
+    cursor: pointer;
+}

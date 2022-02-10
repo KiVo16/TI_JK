@@ -1,0 +1,48 @@
+
+// MEDIA QUERY MANAGER
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop
+
+$breakpoint arguement choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER: Base + typography > general layout + grid > page layout > components
+
+1em = 16px
+*/
+@mixin respond($breakpoint) {
+    @if $breakpoint == xxvtiny {
+        @media only screen and (max-width: 23.125em) { @content };    //370px
+    }
+    @if $breakpoint == xvtiny {
+        @media only screen and (max-width: 28.125em) { @content };    //450px
+    }
+    @if $breakpoint == vtiny {
+        @media only screen and (max-width: 35.625em) { @content };    //570px
+    }
+    @if $breakpoint == tiny {
+        @media only screen and (max-width: 40.625em) { @content };    //650px
+    }
+    @if $breakpoint == vsmall {
+        @media only screen and (max-width: 46.875em) { @content };    //750px
+    }
+    @if $breakpoint == small {
+        @media only screen and (max-width: 53.125em) { @content };    //850px
+    }
+    @if $breakpoint == medium {
+        @media only screen and (max-width: 65.625em) { @content };     //1050px
+    }
+    @if $breakpoint == big {
+        @media only screen and (max-width: 78.125em) { @content };    //1250px
+    }
+    @if $breakpoint == large {
+        @media only screen and (min-width: 112.5em) { @content };    //1800
+    }
+}

@@ -1,0 +1,123 @@
+.modal {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 4000;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__bg {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        z-index: -100;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+      //  animation: fadeIn 0.2s ease-in-out;
+    }
+
+    &::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+    }
+}
+.content {
+   // animation: slideDropDown 0.2s ease-in-out;
+
+   &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+&::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.2);
+    }
+}
+
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2.6rem 2.6rem;
+    // padding-bottom: 3rem;
+    background-color: white;
+    min-width: 20%;
+    //display: grid;
+    border-radius: 14px;
+    //grid-template-rows: min-content min-content;
+
+    &__header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 4rem;
+
+        &__title {
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 2.4rem;
+            color: var(--color-black);
+        }
+
+        &__exit {
+            width: 4rem;
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s all;
+            border-radius: 14px;
+            // margin-top: -1rem;
+            // margin-right: -1rem;
+          
+            &:hover {
+                fill: var(--color-primary);
+                background-color: var(--color-grey-main);
+            }
+
+            &__icon {
+                width: 1.4rem;
+                height: 1.4rem;
+                fill: var(--color-black) !important;
+            }
+        }
+    }
+}
+
+@keyframes slideDropDown {
+    from {
+        opacity: 0;
+        transform: translateY(-2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

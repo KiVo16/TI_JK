@@ -1,0 +1,143 @@
+.input {
+    position: relative;
+
+    &__counter {
+        content: "";
+        position: absolute;
+        bottom: 1.2rem;
+        right: 2rem;
+    }
+
+    &__main {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+
+        &__input {
+            height: 100%;
+            resize: vertical;
+            min-height: 50px;
+            max-height: auto;
+            padding: 1.7rem;
+            width: 100%;
+            border-radius: 14px;
+            border: none;
+            box-shadow: var(--shadow-main);
+
+            font-size: 1.6rem;
+            font-family: var(--font-primary);
+            transition: 0.05s all;
+
+            &__icon {
+                padding-left: 4.25rem;
+            }
+
+            &__arrow {
+                padding-right: 4.25rem;
+            }
+
+            &:active,
+            &:focus {
+                outline: none;
+
+                //  .style__modern {
+                border: 1px solid var(--color-grey-5-dark) !important;
+                // }
+            }
+        }
+
+        &__icon {
+            width: 3rem;
+            height: 3rem;
+            color: red;
+            position: absolute;
+            font-size: 2.5rem;
+            left: 1.5rem;
+        }
+
+        &__arrow {
+            width: 3rem;
+            height: 3rem;
+            color: var(--color-black);
+            font-size: 2.5rem;
+
+            &__container {
+                position: absolute;
+                right: 1.5rem;
+                transition: all 0.2s;
+                cursor: pointer;
+
+                &__open {
+                    transform: rotateZ(180deg);
+                }
+            }
+        }
+
+        &__label {
+            position: absolute;
+            font-size: 1.6rem;
+            font-weight: 300;
+            font-family: var(--font-primary);
+            left: 1.9rem;
+            display: block;
+            //  transform: translateY(0rem);
+            top: 47.5%;
+            transform: translateY(-50%);
+            transition: all 0.2s;
+            color: var(--color-grey-6);
+            font-weight: 400;
+        }
+    }
+
+    &__error {
+        margin-top: 0.75rem;
+        padding-left: 1.7rem;
+    }
+}
+
+.style {
+    &__modern {
+        box-shadow: none;
+        border: 1px solid var(--color-grey-5);
+        padding: 1.8rem;
+        padding-bottom: 1rem;
+        padding-top: 2rem;
+
+        color: var(--color-black);
+
+        &::placeholder {
+            visibility: hidden;
+        }
+
+        &:focus + .input__main__label {
+            outline: none;
+            top: 0.8rem;
+            left: 1.9rem;
+            transform: translateY(0);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: lightgrey;
+        }
+        &:not(:placeholder-shown) + .input__main__label {
+            top: 0.8rem;
+            left: 1.9rem;
+            transform: translateY(0);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: lightgrey;
+        }
+    }
+}
+
+@keyframes slideDropDown {
+    from {
+        opacity: 0;
+        transform: translateY(-2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

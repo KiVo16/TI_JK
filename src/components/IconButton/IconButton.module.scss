@@ -1,0 +1,27 @@
+.i_button {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+    outline: none;
+    border: none;
+    position: relative;
+    cursor: pointer;
+
+    &__icon {
+        width: 2.4rem;
+        height: 2.4rem;
+        fill: inherit;
+        position: relative;
+        z-index: 200;
+    }
+}
+
+.white {
+    background-color: white;
+    fill: var(--color-primary);
+}
+
+.primary {
+    background-color: var(--color-primary);
+    fill: var(--color-white);
+}

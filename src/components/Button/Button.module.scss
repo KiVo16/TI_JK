@@ -1,0 +1,31 @@
+.button {
+    width: min-content;
+    height: 5.2rem;
+    padding: 0 2.6rem;
+    border-radius: 14px;
+    outline: none;
+    border: none;
+    white-space: nowrap;
+
+    transition: .2s all;
+    cursor: pointer; 
+}
+
+.primary {
+    background-color: var(--color-primary);
+    color: white;
+
+    &:hover {
+        background-color: var(--color-primary-dark);
+    }
+}
+
+.white {
+    background-color: var(--color-white);
+    color: var(--color-black) !important;
+
+    &:hover {
+        background-color: var(--color-white);
+        color: var(--color-black);
+    }
+}

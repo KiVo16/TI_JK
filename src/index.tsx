@@ -1,12 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from 'react-redux'
+
 import reportWebVitals from './reportWebVitals';
+import GlobalReducer from './redux/GlobalReducer';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import thunk from 'redux-thunk';
+
+export type AppReduxState = {
+  global: typeof GlobalReducer;
+
+
+}
+
+const rootReducer = combineReducers<AppReduxState>({ global: GlobalReducer })
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store} >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

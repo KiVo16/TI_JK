@@ -1,0 +1,219 @@
+// .children {
+//     width: 30rem;
+//      background-color: green;
+//     padding: .5rem;
+// }
+
+.input {
+    position: relative;
+
+
+    //background-color: red;
+    //display: flex;
+    //grid-template-columns: 1fr 1fr;
+
+    &__main {
+        display: flex;
+        align-items: center;
+        //box-sizing: border-box;
+        width: 100%;
+        //height: 100%;
+        display: flex;
+        max-height: inherit;
+        background-color: white;
+        flex-wrap: wrap;
+        padding-bottom: 1rem;
+        // padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        height: 5.6rem;
+        // min-height: 5.6rem;
+        // max-height: 5.6rem;
+        border: 1px solid var(--color-grey-5);
+        border-radius: 14px;
+        flex: 1;
+
+        &:focus-within {
+            border: 1px solid var(--color-grey-5-dark) !important;
+        }
+        div:has(div > input:invalid)  {
+            border: 1px solid var(--color-primary);
+        }
+
+
+        //        min-height: 5.6rem;
+
+        //min-width: 20rem;
+
+        &__input {
+            //  background-color: yellow;
+            //padding: 0rem 1.7rem;
+            //min-height: 5.6rem;
+
+            height: 4.7rem !important;
+
+            padding-bottom: 1rem;
+            border-radius: 14px;
+         //   background-color: yellow;
+            //height: 3rem;
+            // width: 100%;
+            flex: 1;
+            width: 100%;
+            min-width: 5rem;
+            border: none;
+            max-height: inherit;
+            height: inherit;
+            height: 100%;
+            // box-shadow: var(--shadow-main);
+            // border-radius: 14px !important;
+            font-size: inherit;
+            font-size: 1.6rem;
+            // font-size: inherit;
+            color: var(--color-black);
+            font-family: var(--font-primary);
+            transition: 0.05s all;
+
+         
+
+            &__icon {
+                padding-left: 4.25rem;
+            }
+
+            &__arrow {
+                padding-right: 4.25rem;
+            }
+
+            &:active,
+            &:focus {
+                outline: none;
+
+                //  .style__modern {
+                //border: 2px solid lightgrey !important;
+                // }
+            }
+        }
+
+        &__icon {
+            width: 3rem;
+            height: 3rem;
+            color: red;
+            position: absolute;
+            font-size: 2.5rem;
+            left: 1.5rem;
+        }
+
+        &__arrow {
+            width: 3rem;
+            height: 3rem;
+            color: var(--color-black);
+            font-size: 2.5rem;
+
+            &__container {
+                position: absolute;
+                right: 1.5rem;
+                transition: all 0.2s;
+                cursor: pointer;
+
+                &__open {
+                    transform: rotateZ(180deg);
+                }
+            }
+        }
+
+        &__label {
+            position: absolute;
+            font-size: 1.6rem;
+            font-weight: 300;
+            font-family: var(--font-primary);
+            left: 0.8rem;
+            display: block;
+            //  transform: translateY(0rem);
+            top: 56%;
+            transform: translateY(-50%);
+            transition: all 0.2s;
+            color: var(--color-grey-6);
+            white-space: nowrap;
+            cursor: text;
+            font-weight: 400;
+
+            /*    font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-grey-light-7);*/
+        }
+    }
+
+    &__drop_down {
+        position: absolute;
+        min-width: 100%;
+        border-radius: 6px;
+        background-color: white;
+        box-shadow: var(--shadow-main);
+        top: 0;
+        overflow: hidden;
+        z-index: 5000;
+
+        animation: slideDropDown 0.2s ease-in-out;
+    }
+
+    &__error {
+        margin-top: 0.7rem;
+        padding-left: 1.9rem;
+    }
+}
+
+.style {
+    &__modern {
+        box-shadow: none;
+        padding: 0rem 0.8rem;
+        padding-top: 1.9rem;
+        // height: 5.6rem;
+
+        &.noLabel {
+            padding-top: 0.8rem;
+            &::placeholder {
+                visibility: visible;
+            }
+        }
+
+        // color: black;
+
+        &::placeholder {
+            visibility: hidden;
+            // padding-top: 0rem;
+        }
+
+        &:focus + .input__main__label {
+            &.noLabel {
+                display: none;
+            }
+
+            outline: none;
+            top: 0.7rem;
+            left: 0.8rem;
+            transform: translateY(0);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: lightgrey;
+        }
+
+        &:not(:placeholder-shown) + .input__main__label {
+            top: 0.7rem;
+            left: 0.8rem;
+            transform: translateY(0);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: lightgrey;
+        }
+    }
+}
+
+@keyframes slideDropDown {
+    from {
+        opacity: 0;
+        transform: translateY(-2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

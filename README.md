@@ -60,4 +60,4 @@ Minimalne wymagania: `PHP > 7.4`(zalecany XAMPP)
  6. Zdefiniowanie konfiguracji do bazy danych w pliku ./api/dbController.php (class DB)
  7. Uruchomienie `yarn start` z poziomu folderu nadrzędnego
 
-**Biorąc pod uwagę długą listę kroków wymaganych do uruchomienia serwisu oraz możliwością wystąpienia błędów (np. z zapisem cookies na localhost), zalecam skorzystanie z linka https://kubaweb2.netsetup.pl/**`
+**Biorąc pod uwagę długą listę kroków wymaganych do uruchomienia serwisu oraz możliwość wystąpienia błędów (np. z zapisem cookies na localhost), zalecam skorzystanie z linka https://kubaweb2.netsetup.pl/ **

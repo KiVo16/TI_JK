@@ -11,7 +11,7 @@ import ProductList from '../../../components/ProductList/ProductList';
 import Section from '../../../components/Section/Section';
 import ShoppingCart from '../../../components/ShoppingCart/ShoppingCart';
 import { useInputFieldReducer } from '../../../reducers/InputFieldReducer';
-import { globalAuth, globalGetListProducts, globalSetProductOpen } from '../../../redux/GlobalReducer';
+import { globalAuth, globalGetListProducts, globalSetProductOpen, globalSetSelectedProduct } from '../../../redux/GlobalReducer';
 import BasePage from '../../BasePage/BasePage';
 import styles from './MainPage.module.scss';
 
@@ -32,6 +32,11 @@ const MainPage = () => {
         reduxDispatch(globalGetListProducts(searchReducer.value));
     }, [searchReducer.value])
 
+    const onProductAddClick = () => {
+        reduxDispatch(globalSetSelectedProduct(undefined));
+        reduxDispatch(globalSetProductOpen(true));
+    }
+
     return (
         <BasePage>
             <CatchPhrase className={classes("u-margin-layout-bottom--small")} heading="Umawiaj wizyty szybko i prosto" content="Bez zakładnia konta i innych niepotrzebnych rzeczy" />
@@ -45,7 +50,7 @@ const MainPage = () => {
                         type="text"
                         className={classes(styles.list__header__input)}
                     />
-                    {token !== "" && <Button color="primary" onClick={() => reduxDispatch(globalSetProductOpen(true))}>Dodaj produkt</Button>}
+                    {token !== "" && <Button color="primary" onClick={onProductAddClick}>Dodaj produkt</Button>}
                 </div>
                 <ProductList buyMode adminMode={token !== ""} products={products} />
             </Section>

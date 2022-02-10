@@ -76,15 +76,15 @@ class Orders
         $order = array();
         $products = array();
         foreach ($rows as $row) {
-            $order["id"] = $row["id"];
+            $order["id"] = intval($row["id"]);
             $order["clientName"] = $row["client_name"];
             array_push($products, array(
-                "id" => $row["product_id"],
+                "id" => intval($row["product_id"]),
                 "name" => $row["name"],
                 "description" => $row["description"],
-                "duration" => $row["duration"],
-                "price" => $row["price"],
-                "count" => $row["count"]
+                "duration" => intval($row["duration"]),
+                "price" => intval($row["price"]),
+                "count" => intval($row["count"])
             ));
         }
         $order["products"] = $products;

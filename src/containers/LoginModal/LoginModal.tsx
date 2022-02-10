@@ -4,7 +4,7 @@ import Modal, { ModalProps } from '../../components/Modal/Modal';
 import InputField from '../../components/InputField/InputField';
 import { useInputFieldReducer } from '../../reducers/InputFieldReducer';
 import Button from '../../components/Button/Button';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { handleApiError, Login } from '../../api';
 import { useDispatch } from 'react-redux';
 import { globalSetLogin } from '../../redux/GlobalReducer';
@@ -21,7 +21,11 @@ const LoginModal = (props: LoginModalProps) => {
 
     const [errorState, setErrorState] = useState("");
 
-    const onLogIn = useCallback(() => {
+    useEffect(() => {
+        setErrorState("");
+    }, [props.open])
+
+     const onLogIn = useCallback(() => {
         Login({ login: loginReducer.value, pass: passReducer.value }).then(response => {
             reduxDispatch(globalSetLogin(response.data.login, response.data.token));
             props.onClose();

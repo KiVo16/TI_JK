@@ -1,7 +1,8 @@
 import axios from "axios"
 import { Order, Product } from "./redux/GlobalReducer"
 
-const baseURL = "http://localhost/techniki/p1/api"
+//const baseURL = "http://localhost/techniki/p1/api"
+const baseURL = "https://kubaweb2.netsetup.pl/api"
 const instance = axios.create({
     withCredentials: true,
     baseURL: baseURL
@@ -57,7 +58,7 @@ export const CreateProduct = (product: Product) => {
 
 export const UpdateProduct = (product: Product) => {
     const json = JSON.stringify(product);
-    return instance.put<GeneralResponse>("products", json);
+    return instance.put<GeneralResponse>(`products/${product.id}`, json);
 }
 
 export const DeleteProduct = (id: number) => {

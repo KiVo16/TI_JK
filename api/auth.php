@@ -71,7 +71,40 @@ class Auth
         return $rows;
     }
 
-    function auth()
+    function login()
+    {
+        $body = json_decode(file_get_contents('php://input'), true);
+        if (!isset($body["login"]) || !isset($body["pass"])) {
+            $err = new ApiError(400, "Failed while loging in: " . "missing login or password");
+            $err->Send();
+            exit;
+        }
+
+        $db = new DB();
+        $auth = $this->getAuthByCredentials($db, $body["login"], $body["pass"]);
+        if ($auth == NULL) exit;
+
+
+        $jwtToken = $this->createToken($body["login"]);
+        $query = new UpdateQuery($db->getConn(), self::AuthTable, array("token" => $jwtToken), array("login" => $body["login"], "pass" => $body["pass"]));
+
+     
+        try {
+            $db->Transaction(array($query));
+            $response = new TokenResponse(200, $body["login"], $jwtToken);
+            $response->Send();
+        } catch (Exception $e) {
+            $err = new ApiError(500, "Failed while loginig in: " . $e);
+            $err->Send();
+        }
+
+        $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
+        setcookie( "token", $jwtToken, time() + (60 * 15), "/", NULL, true, true );
+
+        $db->close();
+    }
+
+    function authAdmin()
     {
         if (!isset($_COOKIE["token"])) {
             $err = new ApiError(401, "Unauthenticated: " . "missing cookie");
@@ -133,36 +166,5 @@ class Auth
         setcookie("token", null, -1, "/", true, true);
     }
 
-    function login()
-    {
-        $body = json_decode(file_get_contents('php://input'), true);
-        if (!isset($body["login"]) || !isset($body["pass"])) {
-            $err = new ApiError(400, "Failed while loging in: " . "missing login or password");
-            $err->Send();
-            exit;
-        }
 
-        $db = new DB();
-        $auth = $this->getAuthByCredentials($db, $body["login"], $body["pass"]);
-        if ($auth == NULL) exit;
-
-
-        $jwtToken = $this->createToken($body["login"]);
-        $query = new UpdateQuery($db->getConn(), self::AuthTable, array("token" => $jwtToken), array("login" => $body["login"], "pass" => $body["pass"]));
-
-     
-        try {
-            $db->Transaction(array($query));
-            $response = new TokenResponse(200, $body["login"], $jwtToken);
-            $response->Send();
-        } catch (Exception $e) {
-            $err = new ApiError(500, "Failed while loginig in: " . $e);
-            $err->Send();
-        }
-
-        $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
-        setcookie( "token", $jwtToken, time() + (60 * 15), "/", NULL, true, false );
-
-        $db->close();
-    }
 }

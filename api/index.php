@@ -9,9 +9,12 @@ include('./auth.php');
 include('./orders.php');
 
 header('content-type: application/json; charset=utf-8');
-header('Access-Control-Allow-Credentials: true');
 
-header("access-control-allow-origin: {$_SERVER['HTTP_ORIGIN']}");
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("access-control-allow-origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+}
+
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
 header("Access-Control-Max-Age: 3600");
@@ -21,7 +24,6 @@ $url  = str_replace(API_PATH, "",  $_SERVER['REQUEST_URI']);
 $uri = parse_url($url, PHP_URL_PATH);
 $uri = explode('/', $uri);
 $method = $_SERVER['REQUEST_METHOD'];
-
 
 if (sizeof($uri) > 1) {
 
@@ -62,6 +64,6 @@ if (sizeof($uri) > 1) {
         if ($method == "POST")  $auth->logout();
     } else if ($uri[1] == "auth") {
         $auth = new Auth();
-        if ($method == "POST")  $auth->auth();
+        if ($method == "POST")  $auth->authAdmin();
     }
 }

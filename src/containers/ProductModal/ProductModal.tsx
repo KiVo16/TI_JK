@@ -24,6 +24,9 @@ const ProductModal = (props: ProductModalProps) => {
     const [priceReducer, dispatchPriceReducer] = useInputFieldReducer();
 
     const [errorState, setErrorState] = useState("");
+    useEffect(() => {
+        setErrorState("");
+    }, [props.open])
 
     const selectedProduct = useSelector((state: RootState) => state.global.selectedProduct);
 
@@ -32,7 +35,7 @@ const ProductModal = (props: ProductModalProps) => {
             id: 0,
             name: nameReducer.value,
             description: descReducer.value,
-            duration: parseInt(durationReducer.value),
+            duration: Math.floor(parseInt(durationReducer.value) * 60),
             price: parseFloat(priceReducer.value)
         }).then(() => {
             reduxDispatch(globalGetListProducts());
@@ -50,7 +53,7 @@ const ProductModal = (props: ProductModalProps) => {
             id: selectedProduct.id,
             name: nameReducer.value,
             description: descReducer.value,
-            duration: parseInt(durationReducer.value),
+            duration: Math.floor(parseInt(durationReducer.value) * 60),
             price: parseFloat(priceReducer.value)
         }).then(() => {
             reduxDispatch(globalGetListProducts());
@@ -63,12 +66,19 @@ const ProductModal = (props: ProductModalProps) => {
     }, [selectedProduct?.id, nameReducer.value, descReducer.value, durationReducer.value, priceReducer.value])
 
     useEffect(() => {
-        if(!selectedProduct) return;
-        const {name, description, price, duration} = selectedProduct;
+        if (!selectedProduct) {
+            inputChange("", dispatchNameReducer);
+            inputChange("", dispatchDescReducer);
+            inputChange("", dispatchPriceReducer);
+            inputChange("", dispatchDurationReducer);
+
+            return;
+        };
+        const { name, description, price, duration } = selectedProduct;
         inputChange(name, dispatchNameReducer);
         inputChange(description, dispatchDescReducer);
         inputChange(price.toString(), dispatchPriceReducer);
-        inputChange(duration.toString(), dispatchDurationReducer);
+        inputChange((duration / 60).toString(), dispatchDurationReducer);
     }, [selectedProduct])
 
     return (
@@ -92,7 +102,7 @@ const ProductModal = (props: ProductModalProps) => {
             <InputField
                 dispatch={dispatchDurationReducer}
                 value={durationReducer.value}
-                placeholder="Długość zabiegu"
+                placeholder="Długość zabiegu w minutach"
                 fieldStyle="modern"
                 type="number"
                 className={classes(styles.list__summary__input)}

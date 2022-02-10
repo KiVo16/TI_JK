@@ -16,7 +16,7 @@ class Products
     {
 
         $auth = new Auth();
-        $auth->auth();
+        $auth->authAdmin();
 
         $body = json_decode(file_get_contents('php://input'), true);
         if (!$this->checkIsProductComplete($body)) {
@@ -43,7 +43,7 @@ class Products
     {
 
         $auth = new Auth();
-        $auth->auth();
+        $auth->authAdmin();
 
         $body = json_decode(file_get_contents('php://input'), true);
         if (!$this->checkIsProductComplete($body)) {
@@ -76,7 +76,7 @@ class Products
     function delete($id)
     {
         $auth = new Auth();
-        $auth->auth();
+        $auth->authAdmin();
 
         echo "id: " . $id;
 
@@ -129,11 +129,11 @@ class Products
         }
 
         $product = array(
-            "id" => $id,
+            "id" => intval($id),
             "name" => $rows[0]["name"],
             "description" => $rows[0]["description"],
-            "duration" => $rows[0]["duration"],
-            "price" => $rows[0]["price"]
+            "duration" => intval($rows[0]["duration"]),
+            "price" => intval($rows[0]["price"])
         );
 
         $r = new ApiResponse(200, $product);
@@ -148,7 +148,7 @@ class Products
         $args = array(self::ProductStatusNormal);
         $where = " WHERE status = ? ";
         if (isset($_GET["search"])) {
-            $where .= " name LIKE ? OR description LIKE ?";
+            $where .= " AND (name LIKE ? OR description LIKE ?)";
             array_push($args,"%".$_GET["search"] . "%", "%" . $_GET["search"] . "%");
         }
 
@@ -159,11 +159,12 @@ class Products
         if ($rows != NULL || sizeof($rows) > 0) {
             foreach ($rows as $product) {
                 array_push($products, array(
-                    "id" => $product["id"],
+                    "id" => intval($product["id"]),
                     "name" => $product["name"],
                     "description" => $product["description"],
-                    "duration" => $product["duration"],
-                    "price" => $product["price"]
+                    "duration" => intval($product["duration"]),
+                    "price" => intval($product["price"])
+                    
                 ));
             }
         }

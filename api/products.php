@@ -125,6 +125,7 @@ class Products
         if ($rows == NULL || sizeof($rows) == 0) {
             $err = new ApiError(404, "Product with id $id not found");
             $err->Send();
+            $db->close();
             return;
         }
 

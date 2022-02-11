@@ -10,9 +10,10 @@ type ProductListProps = PropsWithCustomBase<{
     buyMode?: boolean
     adminMode?: boolean
     products: ProductType[]
+    productClassName?: string
 }>;
 
-const ProductList = ({ className, adminMode, buyMode, products }: ProductListProps) => {
+const ProductList = ({ className, adminMode, buyMode, products, productClassName }: ProductListProps) => {
 
     const reduxDispatch = useDispatch();
 
@@ -35,7 +36,7 @@ const ProductList = ({ className, adminMode, buyMode, products }: ProductListPro
     return (
         <ul className={classes(styles.list, className)}>
             {
-                products.map(p => <Product key={p.id} product={p} adminMode={adminMode} buyMode={buyMode} onUpdate={onUpdate} onDelete={onDelete} onAddToCart={onAddToCart} />)
+                products.map(p => <Product key={p.id} className={productClassName} product={p} adminMode={adminMode} buyMode={buyMode} onUpdate={onUpdate} onDelete={onDelete} onAddToCart={onAddToCart} />)
             }
         </ul>
     )

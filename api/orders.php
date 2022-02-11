@@ -48,6 +48,57 @@ class Orders
         $db->close();
     }
 
+
+    function getList()
+    {
+        $auth = new Auth();
+        $auth->authAdmin();
+
+        $db = new DB();
+
+        $query = "
+        SELECT o.id, o.client_name, p.name,p.id as 'product_id', p.description, p.price, p.duration, op.count FROM orders_products AS op
+        INNER JOIN orders AS o ON o.id = op.order_id
+        INNER JOIN products AS p ON p.id = op.product_id ";
+
+        $rows = $db->Select($query, array());
+        if ($rows == NULL || sizeof($rows) == 0) {
+            $r = new ApiResponse(200, array());
+            $r->Send();
+            $db->close();
+            return;
+        }
+
+        $orders = array();
+        $products = array();
+
+        foreach ($rows as $row) {
+            $id = intval($row["id"]);
+            $order = array();
+            $order["id"] = intval($row["id"]);
+            $order["clientName"] = $row["client_name"];
+            array_push($orders, $order);
+            $product = array(
+                "id" => intval($row["product_id"]),
+                "name" => $row["name"],
+                "description" => $row["description"],
+                "duration" => intval($row["duration"]),
+                "price" => intval($row["price"]),
+                "count" => intval($row["count"])
+            );
+            if (array_key_exists($id, $products))  array_push($products[$id], $product);
+            else $products[$id] = array($product);
+        }
+
+        for ($i = 0; $i < sizeof($orders); $i++) {
+            $orders[$i]["products"] = $products[$orders[$i]["id"]];
+        }
+
+        $r = new ApiResponse(200, $orders);
+        $r->Send();
+        $db->close();
+    }
+
     function get($id)
     {
         if (!isset($_GET["key"])) {
@@ -70,6 +121,7 @@ class Orders
         if ($rows == NULL || sizeof($rows) == 0) {
             $err = new ApiError(404, "Product with id $id not found or you don't have access to it");
             $err->Send();
+            $db->close();
             return;
         }
 
@@ -108,6 +160,7 @@ class Orders
         if ($rows == NULL || sizeof($rows) == 0) {
             $err = new ApiError(404, "Product with id $id not found or you don't have access to it");
             $err->Send();
+            $db->close();
             return;
         }
 

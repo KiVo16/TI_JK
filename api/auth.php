@@ -131,7 +131,10 @@ class Auth
 
         $db = new DB();
         $auth = $this->getAuthByToken($db, $data["login"], $token);
-        if ($auth == NULL) exit;
+        if ($auth == NULL){
+            $db->close();
+            exit;
+        } 
 
         $db->close();
     }

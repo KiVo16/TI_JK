@@ -1,0 +1,40 @@
+.order {
+    width: 100%;
+
+    padding: 0 4rem;
+    border-radius: 32px;
+    box-shadow: var(--shadow-main);
+    background-color: var(--color-grey-light-1);
+
+    cursor: pointer;
+    transition: 0.2s all;
+
+    &__header {
+        height: 8.5rem;
+        display: flex;
+        align-items: center;
+
+        & > *:not(:last-child) {
+            margin-right: 2rem;
+        }
+
+        & > *:nth-child(2) {
+            margin-left: auto;
+        }
+    }
+
+    &__details {
+        padding-bottom: 4rem;
+    }
+
+    & &__product {
+        padding: 0;
+        height: min-content;
+        box-shadow: none;
+
+        & > *:first-child {
+            height: auto;
+        }
+    }
+}
+

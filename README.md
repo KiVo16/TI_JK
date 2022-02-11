@@ -19,7 +19,7 @@ Dodatkowo istnieje tryb admina, który umożliwia dodawanie, usuwanie i aktualiz
 
 ## Autoryzacja
 Autoryzacja opiera się na tokenach **JWT** zapisywanych jako Cookie o nazwie "token" (HttpOnly Cookie).
-Token domyślnie wygada po 15 minutach od momentu wygenerowania. System nie przewiduje użycia refresh tokenów, dlatego po każdej sesji 15 minutowej należy się ponownie zalogować.
+Token domyślnie wygasa po 15 minutach od momentu wygenerowania. System nie przewiduje użycia refresh tokenów, dlatego po każdej sesji 15 minutowej należy się ponownie zalogować.
 
 ## API
 API jest RESTowe. Dostępne endpointy:
@@ -31,6 +31,7 @@ API jest RESTowe. Dostępne endpointy:
 | /products/`:id` | `DELETE` |Tak|Usunięcie usługi|
 | /products/`:id` | `PUT`|Tak|Aktualizacja usługi|
 |/orders/`:id`?key=[klucz] | `GET`| Nie | Pobranie konkretnego zamówienia|
+|/orders | `GET`| Tak | Lista zamówień|
 | /orders/`:id` | `DELETE`|Nie|Usunięcie konkretnego zamówienia|
 | /login| `POST`|Nie|Logowanie|
 | /logout| `POST`|Nie|Logowanie|

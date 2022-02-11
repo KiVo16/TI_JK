@@ -2,7 +2,7 @@ import produce from "immer";
 import { Dispatch } from "react";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { Action, Reducer } from "redux";
-import { Auth, GetOrder, GetProductList, handleApiError, Login, LogOut } from "../api";
+import { Auth, GetOrder, GetOrdersList, GetProductList, handleApiError, Login, LogOut } from "../api";
 import Product from "../components/ProductList/Product/Product";
 
 
@@ -21,7 +21,8 @@ export enum GlobalActions {
     setOrder = "setOrder",
     setLoginOpen = "setLoginOpen",
     setProductOpen = "setProductOpen",
-    setSelectedProduct = "setSelectedProduct"
+    setSelectedProduct = "setSelectedProduct",
+    setOrders = "setOrders"
 }
 
 export type Order = {
@@ -56,6 +57,7 @@ export type GlobalState = {
     shoppingProducts: Product[]
 
     order?: Order
+    orders: Order[]
     products: Product[]
 }
 
@@ -66,6 +68,7 @@ const startGlobalState: GlobalState = {
     productOpen: false,
 
     products: [],
+    orders: [],
     shoppingProducts: []
 }
 
@@ -88,6 +91,8 @@ const GlobalReducer: Reducer<GlobalState, DispatchGlobalAction> = (currentState 
             return setLoginOpen(currentState, action.params.open);
         case GlobalActions.setProductOpen:
             return setProductOpen(currentState, action.params.open);
+        case GlobalActions.setOrders:
+            return setOrders(currentState, action.params.orders);
         case GlobalActions.setSelectedProduct:
             return setSelectedProduct(currentState, action.params.product);
         case GlobalActions.setShoppingProducts:
@@ -109,6 +114,11 @@ const setLoginToken = (state: GlobalState, login: string, token: string): Global
 const setProducts = (state: GlobalState, products: Product[]): GlobalState =>
     produce(state, newState => {
         newState.products = products;
+    });
+
+const setOrders = (state: GlobalState, orders: Order[]): GlobalState =>
+    produce(state, newState => {
+        newState.orders = orders;
     });
 
 const setOrder = (state: GlobalState, order?: Order): GlobalState =>
@@ -138,7 +148,7 @@ const setShoppingProducts = (state: GlobalState, product?: Product): GlobalState
 
 const addShoppingProduct = (state: GlobalState, product: Product): GlobalState =>
     produce(state, newState => {
-      
+
         const index = newState.shoppingProducts.findIndex(i => i.id === product.id);
         console.log("indeX: ", index);
         if (index > -1) {
@@ -159,6 +169,11 @@ export const globalSetLogin = (login: string, token: string) =>
 export const globalSetProducts = (products: Product[]) =>
     (dispatch: Dispatch<any>) => {
         dispatch({ type: GlobalActions.setProductList, params: { products: products } });
+    }
+
+export const globalSetOrders = (orders: Order[]) =>
+    (dispatch: Dispatch<any>) => {
+        dispatch({ type: GlobalActions.setOrders, params: { orders: orders } });
     }
 
 export const globalSetOrder = (order?: Order) =>
@@ -199,6 +214,14 @@ export const globalGetListProducts = (search?: string) =>
     (dispatch: Dispatch<any>) => {
         GetProductList(search).then((response) => {
             dispatch(globalSetProducts(response.data));
+        }).catch(handleApiError);
+    };
+
+
+export const globalGetListOrders = () =>
+    (dispatch: Dispatch<any>) => {
+        GetOrdersList().then((response) => {
+            dispatch(globalSetOrders(response.data));
         }).catch(handleApiError);
     };
 

@@ -8,6 +8,7 @@ import Header from './containers/Header/Header';
 import LoginModal from './containers/LoginModal/LoginModal';
 import MainPage from './containers/Pages/MainPage/MainPage';
 import OrderPage from './containers/Pages/OrderPage/OrderPage';
+import OrdersPage from './containers/Pages/OrdersPage/OrdersPage';
 import SummaryPage from './containers/Pages/SummaryPage/SummaryPage';
 import ProductModal from './containers/ProductModal/ProductModal';
 import { globalAuth, globalSetLoginOpen, globalSetProductOpen } from './redux/GlobalReducer';
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="cart" element={<SummaryPage />} />
           <Route path="orders/:id" element={<OrderPage />} />
+          <Route path="orders" element={<OrdersPage />} />
         </Routes>
       </AnimatePresence>
     </div>

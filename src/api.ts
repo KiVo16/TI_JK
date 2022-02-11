@@ -6,8 +6,8 @@ const baseURL = "https://kubaweb2.netsetup.pl/api"
 const instance = axios.create({
     withCredentials: true,
     baseURL: baseURL
-  })
-  
+})
+
 
 export const handleApiError = (err: any) => console.error("API error: ", err);
 
@@ -41,6 +41,10 @@ export const GetOrder = (id: number, key: string) => {
 export const DeleteOrder = (id: number, key: string) => {
     const params = new URLSearchParams([["key", key]]);
     return instance.delete<GeneralResponse>(`orders/${id}`, { params: params });
+}
+
+export const GetOrdersList = async () => {
+    return instance.get<Order[]>(`orders`);
 }
 
 

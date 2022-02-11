@@ -53,6 +53,7 @@ if (sizeof($uri) > 1) {
         if ($method == "POST")  $orders->post();
         else if ($method == "GET") {
             if (sizeof($uri) >= 3 && $uri[2] != "") $orders->get($uri[2]);
+            else $orders->getList();
         } else if ($method == "DELETE") {
             if (sizeof($uri) >= 3 && $uri[2] != "") $orders->delete($uri[2]);
         }

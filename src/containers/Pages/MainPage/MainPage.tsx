@@ -50,7 +50,11 @@ const MainPage = () => {
                         type="text"
                         className={classes(styles.list__header__input)}
                     />
-                    {token !== "" && <Button color="primary" onClick={onProductAddClick}>Dodaj produkt</Button>}
+                    {token !== "" &&
+                        <div className={styles.admin__buttons}>
+                            <Button color="primary" onClick={onProductAddClick}>Dodaj produkt</Button>
+                            <Button color="primary" onClick={() => navigate("/orders")}>Zamówienia</Button>
+                        </div>}
                 </div>
                 <ProductList buyMode adminMode={token !== ""} products={products} />
             </Section>

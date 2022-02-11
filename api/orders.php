@@ -57,9 +57,10 @@ class Orders
         $db = new DB();
 
         $query = "
-        SELECT o.id, o.client_name, p.name,p.id as 'product_id', p.description, p.price, p.duration, op.count FROM orders_products AS op
-        INNER JOIN orders AS o ON o.id = op.order_id
-        INNER JOIN products AS p ON p.id = op.product_id ";
+        SELECT o.id, o.client_name, p.name,p.id as 'product_id', p.description, p.price, p.duration, op.count FROM orders AS o
+LEFT JOIN orders_products AS op ON op.order_id = o.id
+LEFT JOIN products AS p ON p.id = op.product_id
+ORDER BY o.id";
 
         $rows = $db->Select($query, array());
         if ($rows == NULL || sizeof($rows) == 0) {
@@ -71,30 +72,38 @@ class Orders
 
         $orders = array();
         $products = array();
+        $finalOrders = array();
 
         foreach ($rows as $row) {
             $id = intval($row["id"]);
             $order = array();
             $order["id"] = intval($row["id"]);
             $order["clientName"] = $row["client_name"];
-            array_push($orders, $order);
+            $orders[$id] = $order;
+            $productId = intval($row["product_id"]);
             $product = array(
-                "id" => intval($row["product_id"]),
+                "id" => $productId,
                 "name" => $row["name"],
                 "description" => $row["description"],
                 "duration" => intval($row["duration"]),
                 "price" => intval($row["price"]),
                 "count" => intval($row["count"])
             );
-            if (array_key_exists($id, $products))  array_push($products[$id], $product);
-            else $products[$id] = array($product);
+            if (array_key_exists($id, $products))  $products[$id][$productId] = $product;
+            else $products[$id] = array($productId => $product);
         }
 
-        for ($i = 0; $i < sizeof($orders); $i++) {
-            $orders[$i]["products"] = $products[$orders[$i]["id"]];
+        foreach ($orders as $key => $order) {
+            $p = array();
+            foreach ($products[$order["id"]] as $key => $product) {
+                array_push($p, $product);
+            }
+            $order["products"] = $p;
+            array_push($finalOrders, $order);
         }
 
-        $r = new ApiResponse(200, $orders);
+
+        $r = new ApiResponse(200, $finalOrders);
         $r->Send();
         $db->close();
     }
